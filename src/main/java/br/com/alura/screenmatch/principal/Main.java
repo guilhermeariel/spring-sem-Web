@@ -53,11 +53,16 @@ public class Main {
     List<DadosEpisodio> dadosEpisodios = temporadas.stream()
         .flatMap(t -> t.episodios().stream())
         .collect(Collectors.toList());
-    System.out.println("\nTop 5 episodios");
+    System.out.println("\nTop 10 episodios");
     dadosEpisodios.stream()
-        .filter(e -> !e.avaliacao().equalsIgnoreCase("N/A"))
+        .filter(e -> !e.avaliacao().equalsIgnoreCase("N/A "))
+        .peek(e -> System.out.println("Primeiro filtro(N/A) " + e))
         .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
-        .limit(5)
+        .peek(e -> System.out.println("Ordenação " + e))
+        .limit(10)
+        .peek(e -> System.out.println("Limite " + e))
+        .map(e-> e.titulo().toUpperCase())
+        .peek(e -> System.out.println("Mapeamento " + e))
         .forEach(System.out::println);
 
     List<Episodio> episodios = temporadas.stream()
@@ -79,11 +84,6 @@ public class Main {
                 " Episodio: " + e.getTitulo() +
                 " Data lacamaneto: " + e.getDataLancamento().format(formatador)
         ));
-
-
-
-
-
 
   }
 }
