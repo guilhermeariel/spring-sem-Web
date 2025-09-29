@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -106,5 +107,14 @@ public class Main {
           .collect(Collectors.groupingBy(Episodio::getTemporada,
               Collectors.averagingDouble(Episodio::getAvaliacao)));
      System.out.println(avaliacoesPorTemperada);
+
+    DoubleSummaryStatistics est = episodios.stream()
+        .filter(e -> e.getAvaliacao() > 0.0)
+        .collect(Collectors.summarizingDouble(Episodio::getAvaliacao));
+    System.out.println("Media: " + est.getAverage());
+    System.out.println("Melhor ep: " + est.getMax());
+    System.out.println("Pior ep: " + est.getMin());
+    System.out.println("Quantidade: " + est.getCount());
+
   }
 }
